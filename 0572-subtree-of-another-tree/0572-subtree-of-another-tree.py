@@ -6,18 +6,7 @@
 #         self.right = right
 class Solution:
     def isSubtree(self, root: Optional[TreeNode], subRoot: Optional[TreeNode]) -> bool:
-        def getNode(root, val, arr):
-            if root==None:
-                return
-            
-            if root.val == val:
-                arr.append(root)
-            
-            lr = getNode(root.left, val, arr)
-            
-            rr = getNode(root.right, val, arr)
-            
-            
+        
         def isEqual(root, sub):
             if root==None and sub==None:
                 return True
@@ -30,10 +19,15 @@ class Solution:
                 return isEqual(root.left, sub.left) and isEqual(root.right, sub.right)
             return False
         
-        arr = []
-        getNode(root,subRoot.val, arr)
-        for node in arr:
-            if isEqual(node, subRoot):
-                return True
-        return False
+        
+        def getNode(root, val):
+            nonlocal subRoot
+            if root==None:
+                return False
+            
+            if root.val == val:
+                if isEqual(root, subRoot):
+                    return True
+            return getNode(root.left, val) or getNode(root.right, val)
+        return getNode(root,subRoot.val)
         
