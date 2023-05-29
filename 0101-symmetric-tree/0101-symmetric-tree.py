@@ -9,6 +9,7 @@ class Solution:
         def check(p, q) -> bool:
             if p==None and q==None:
                 return True
+            
             if p==None or q==None:
                 return False
 
