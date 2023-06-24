@@ -8,14 +8,12 @@ class NumArray:
         for x in self.n:
             self.l.append(tsum)
             tsum+=x
-        print(self.l)
         tsum=0
         rt=[]
         for x in self.n[::-1]:
             rt.append(tsum)
             tsum+=x
         self.r = rt[::-1]
-        print(self.r)
         self.tot = sum(nums)
         
 
