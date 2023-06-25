@@ -1,13 +1,13 @@
 class Solution:
     def carFleet(self, target: int, position: List[int], speed: List[int]) -> int:
-        temp= [(target - i)/s for i,s in sorted(zip(position, speed))]
+        time= [(target - i)/s for i,s in sorted(zip(position, speed))]
         
         
-        cur, cnt=0,0
-        for t in temp[::-1]:
-            if cur < t:
+        cur_car_time, cnt=0,0
+        for cur_time in time[::-1]:
+            if cur_car_time < cur_time:
                 cnt+=1
-                cur = t
+                cur_car_time = cur_time
         return cnt
                 
                 
