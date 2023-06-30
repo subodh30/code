@@ -12,16 +12,24 @@ class Solution:
             t = k
             cc = cur
             while cur!=None and t!=0:
-                st.append(cur.val)
-                cur = cur.next
+                st.append(cur)
+                nxt = cur.next
+                cur.next = None
+                cur = nxt
                 t-=1
             
             if t==0:
                 while st:
-                    dummy.next = ListNode(st.pop())
+                    dummy.next = st.pop()
                     dummy = dummy.next
             else:
-                dummy.next = cc
+                tst = []
+                while st:
+                    tst.append(st.pop())
+                
+                while tst:
+                    dummy.next = tst.pop()
+                    dummy = dummy.next
         return nhead.next
                 
                 
