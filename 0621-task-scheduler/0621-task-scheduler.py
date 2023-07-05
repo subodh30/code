@@ -7,7 +7,6 @@ class Solution:
             d[t] = d.get(t, 0) + 1
         
         mv = max(d.values())
-        mul = (n+1) if (n+1) >= len(d.keys()) else len(d.keys())
         cnt=0
         for k, v in d.items():
             if v == mv:
