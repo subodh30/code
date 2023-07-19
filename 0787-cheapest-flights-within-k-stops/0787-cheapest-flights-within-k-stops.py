@@ -1,39 +1,36 @@
 class Solution:
     def findCheapestPrice(self, n: int, flights: List[List[int]], src: int, dst: int, k: int) -> int:
-        al = {}
-        dist=[]
+        d={}
+        n+=1
+        dist = [float("inf") for _ in range(n)]
         for i in range(n):
-            al[i] = []
-            dist.append(float("inf"))
-        
-        for s, d, p in flights:
-            al[s].append((d, p))
-        
-        dist[src] = 0
-        # h=[]
+            d[i]=[]
+        #h=[]
         q=[]
-        for v, w in al[src]:
-            dist[v]=w
-            # heapq.heappush(h, (w, v, 0))
-            q.append((w, v, 0))
+        for u, v, w in flights:
+            d[u].append((v, w))
+            if u == src:
+                #heapq.heappush(h, (w, v, 0))
+                q.append((w, v, 0))
+                dist[v]=w
+            
+        dist[src]=0
         
         while q:
-            # print(h)
-            # print(dist)
-            # w, v, hops= heapq.heappop(h)
-            w, v, hops = q.pop(0)
+            # print(q)
+            # w, u, hops = heapq.heappop(h)
+            w, u, hops = q.pop(0)
             hops+=1
             if hops > k:
                 continue
-            
-            for vi, wi in al[v]:
-                if hops <= k and (wi+w) < dist[vi]:
-                    # heapq.heappush(h, (wi+w, vi, hops))
-                    dist[vi] = wi+w
-                    q.append((wi+w, vi, hops))
-                
+            for v, wi in d[u]:
+                if hops<=k and wi+w < dist[v]:
+                    dist[v] = wi+w
+                    # heapq.heappush(h, (wi+w, v, hops))
+                    q.append((wi+w, v, hops))
+        
         ans = dist[dst]
-        if ans==float("inf"):
+        if ans == float("inf"):
             return -1
         return ans
             
