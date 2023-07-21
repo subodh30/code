@@ -7,7 +7,6 @@ class Solution:
             d[x].append(y)
             
         
-        finished=[]
         vis=[]
         def isCycle(c, cs):
             nonlocal vis
@@ -25,9 +24,8 @@ class Solution:
             
         
         for k, y in d.items():
-            if k not in finished:
-                if k not in vis and isCycle(k, []):
-                    return False
+            if k not in vis and isCycle(k, []):
+                return False
         return True
             
         
