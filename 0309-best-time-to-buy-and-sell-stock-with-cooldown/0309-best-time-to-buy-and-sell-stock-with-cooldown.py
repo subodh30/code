@@ -2,7 +2,6 @@ class Solution:
     def maxProfit(self, prices: List[int]) -> int:
         memo={}
         def rec(i, buy):            
-#             todo =True mean Buy... False means sell
             if i >= len(prices):
                 return 0
             if (i, buy) in memo:
