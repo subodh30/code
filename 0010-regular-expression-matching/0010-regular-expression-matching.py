@@ -9,16 +9,22 @@ class Solution:
                 return False
             
             key = (i, j)
+            if key in dp:
+                return dp[key]
             if p[j] == "*":
                 match = i > -1 and (p[j-1]=="." or p[j-1]==s[i])
-                return dfs(i, j-2) or (match and dfs(i-1, j))
+                dp[key] =  dfs(i, j-2) or (match and dfs(i-1, j))
+                return dp[key]
             
             if i < 0:
-                return False
+                dp[key] = False
+                return dp[key]
             if p[j]=="." or p[j]==s[i]:
-                return dfs(i-1, j-1)
+                dp[key] = dfs(i-1, j-1)
+                return dp[key]
             
-            return False
+            dp[key] = False
+            return dp[key]
         
         # dfs(len(s)-1, len(p)-1)
         # print(dp)
