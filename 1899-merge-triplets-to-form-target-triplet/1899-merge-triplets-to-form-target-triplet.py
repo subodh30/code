@@ -1,7 +1,7 @@
 class Solution:
     def mergeTriplets(self, triplets: List[List[int]], target: List[int]) -> bool:
-        if target in triplets:
-            return True
+#         if target in triplets:
+#             return True
         
         
         temp = []
@@ -16,4 +16,4 @@ class Solution:
         if target[0] not in fi or target[1] not in se or target[2] not in th:
             return False
         
-        return len(fi) > 0
+        return len(temp) > 0
