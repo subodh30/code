@@ -33,7 +33,7 @@ class Solution:
             for j in range(n):
                 if dp[i][j] == 0:
                     dfs(i,j)
-        dfs(0,0)
+        # dfs(0,0)
         # print(dp)
         mx = 1
         for i in range(m):
