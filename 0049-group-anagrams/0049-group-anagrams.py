@@ -1,14 +1,15 @@
 class Solution:
     def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
-        ans = []
-        sdir = {}
-        for s in strs:
-            ss = ''.join(sorted(s))
-            if ss not in sdir:
-                sdir[ss] = []
-            sdir[ss].append(s)
+        d = {}
+        for st in strs:
+            srt = sorted(st)
+            srt = ''.join(srt)
+            if d.get(srt, None) == None:
+                d[srt] = []
+            d[srt].append(st)
             
-        for s in sdir.values():
-            ans.append(s)
+        ans = []
+        for v in d.values():
+            ans.append(v)
+            
         return ans
-        
