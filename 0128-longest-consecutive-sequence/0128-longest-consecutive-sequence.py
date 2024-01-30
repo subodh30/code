@@ -3,13 +3,10 @@ class Solution:
         n = set(nums)
         ans = 0
         for i in nums:
-            if i-1 in n:
-                continue
-            x = i
-            c=0
-            while x in n:
-                c+=1
-                x+=1
-            
-            ans = max(ans, c)
+            if i-1 not in n:
+                x=i
+                while x in n:
+                    x+=1
+                    
+                ans = max(ans, x-i)
         return ans
