@@ -1,24 +1,20 @@
 class Solution:
     def threeSum(self, nums: List[int]) -> List[List[int]]:
-        ans=[]
+        ans = set()
         nums = sorted(nums)
-        
-        for i, a in enumerate(nums):
-            if i>0 and a == nums[i-1]:
+        def find(x, target):
+            td={}
+            ans = []
+            for i, n in enumerate(nums[x:], start=x):
+                if n in td:
+                    ans.append([td[n], i])
+                td[target-n] = i
+            return ans
+        for i in range(len(nums)):
+            if i!=0 and nums[i-1] == nums[i]:
                 continue
-                
-            l, r = i+1, len(nums)-1
-            while l < r:
-                sum3 = a + nums[l] + nums[r]
-                if sum3 > 0:
-                    r -= 1
-                elif sum3 < 0:
-                    l += 1
-                else:
-                    ans.append([a, nums[l], nums[r]])
-                    l += 1
-                    while nums[l-1] == nums[l] and l < r:
-                        l += 1
-        return ans
-        
-        
+            arr = find(i+1, -nums[i])
+            for x,y in arr:
+                ans.add(tuple(sorted([nums[i], nums[x], nums[y]])))
+            
+        return list(ans)
