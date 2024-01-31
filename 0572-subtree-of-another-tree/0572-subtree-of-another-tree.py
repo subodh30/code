@@ -6,28 +6,20 @@
 #         self.right = right
 class Solution:
     def isSubtree(self, root: Optional[TreeNode], subRoot: Optional[TreeNode]) -> bool:
-        
-        def isEqual(root, sub):
-            if root==None and sub==None:
-                return True
-            if root==None:
-                return False
-            if sub==None:
-                return False
-            
-            if root.val == sub.val:
-                return isEqual(root.left, sub.left) and isEqual(root.right, sub.right)
+        if root == None and subRoot == None:
+            return True
+        if root == None or subRoot == None:
             return False
-        
-        
-        def getNode(root, val):
-            nonlocal subRoot
-            if root==None:
+        def Same(root, subRoot):
+            if root == None and subRoot == None:
+                return True
+            if root == None or subRoot == None:
                 return False
+            if root.val == subRoot.val:
+                return Same(root.left, subRoot.left) and Same(root.right, subRoot.right)
+            return False
+        if root.val == subRoot.val:
+            if Same(root,subRoot):
+                return True
+        return self.isSubtree(root.left, subRoot) or self.isSubtree(root.right, subRoot)
             
-            if root.val == val:
-                if isEqual(root, subRoot):
-                    return True
-            return getNode(root.left, val) or getNode(root.right, val)
-        return getNode(root,subRoot.val)
-        
