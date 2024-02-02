@@ -1,27 +1,34 @@
 class Solution:
     def minWindow(self, s: str, t: str) -> str:
-        def hasSub(c1, c2):
-            for a,b in zip(c1, c2):
-                if a > b:
-                    return False
-            return True
-                
-        if len(t) > len(s):
-            return ""
-        c1 = [0]*60
-        c2 = [0]*60
-        
+        comm = set(s+t)
+        dt = {}
+        ds={}
+        for x in comm:
+            dt[x]=0
+            ds[x]=0
+            
         for x in t:
-            c1[ord(x) - 65] = c1[ord(x) - 65] + 1
-       
-        l, maxL = 0, float("infinity")
-        res = [-1, -1]
+            dt[x]+=1
+            
+        def check(dt,ds):
+            for x in comm:
+                if dt[x] > ds[x]:
+                    return False
+                
+            return True
+        
+        l=0
+        ans = float("inf")
+        ret = ""
         for r in range(len(s)):
-            c2[ord(s[r]) - 65] = c2[ord(s[r]) - 65] + 1
-            while hasSub(c1, c2) and l <= r:
-                c2[ord(s[l]) - 65] = c2[ord(s[l]) - 65] - 1
-                if maxL > r - l + 1:
-                    res = [l, r]
-                    maxL = r - l + 1
-                l = l+1
-        return "" if maxL == float("infinity") else s[res[0]:res[1]+1]
+            ds[s[r]]+=1
+            if check(dt, ds):
+                while check(dt,ds):
+                    ds[s[l]]-=1
+                    l+=1
+                if ans > (r-l+2):
+                    ans = r - l + 2
+                    ret = s[max(0, l-1):min(r+1, len(s))]
+        
+        return "" if ans == float("inf") else ret
+                
