@@ -1,19 +1,25 @@
 class Solution:
-    def largestRectangleArea(self, h: List[int]) -> int:
-        st = []
-        lc=[]
-        h.append(0)
-        maxArea = 0
-        for i, x in enumerate(h):
-            if len(st)== 0 or st[-1] <= x:
-                st.append(x)
-                lc.append(i)
+    def largestRectangleArea(self, heights: List[int]) -> int:
+        start=[]
+        height=[]
+        cur = 0
+        ans = 0
+        while cur < len(heights):
+            if height:
+                h, s = heights[cur], cur
+                while height and heights[cur] < height[-1]:
+                    h, s = height.pop(), start.pop()
+                    ans = max(ans, (cur - s)*h)
+                start.append(s)
+                height.append(heights[cur])
             else:
-                l = i
-                while st and st[-1] > x:
-                    s = st.pop()
-                    l = lc.pop()
-                    maxArea = max(maxArea, (i-l)*s)
-                st.append(x)
-                lc.append(l)
-        return maxArea
+                height.append(heights[cur])
+                start.append(cur)
+            cur+=1
+        
+        if height:
+            while height:
+                h, s = height.pop(), start.pop()
+                ans = max(ans, (cur - s)*h)  
+        return ans
+                    
