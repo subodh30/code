@@ -1,32 +1,35 @@
 class Solution:
     def generateParenthesis(self, n: int) -> List[str]:
-        def rec(val, oc, cc, n, ans):
-            
-            def valid(s):
-                st=[]
-                for i in s:
-                    if i == "(":
-                        st.append(")")
+        ret=set()
+        st=["("]
+        def valid(st):
+            t=[]
+            for x in st:
+                if x == "(":
+                    t.append(x)
+                if x == ")":
+                    if t and t[-1] == "(":
+                        t.pop()
                     else:
-                        if len(st)==0:
-                            return False
-                        st.pop()
-                return len(st)==0
+                        return False
+            return False if t else True
             
-            if oc==n and cc==n:
-                if valid(val):
-                    ans.append(val)
+            
+        def check():
+            if len(st) == (2*n):
+                if valid(st):
+                    print(st)
+                    ret.add("".join(st))
                 return
-            
-            if oc < n:
-                rec(val+"(", oc+1, cc, n, ans)
-            
-            if cc < n:
-                rec(val+")", oc, cc+1,n, ans)
-            
-            return
+                  
+            st.append("(")
+            check()
+            st.pop()
+            st.append(")")
+            check()
+            st.pop()
+            return 
         
-        ans =[]
-        rec("", 0, 0, n, ans)
-        return ans
-                
+        check()
+        return ret
+            
