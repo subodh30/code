@@ -18,7 +18,6 @@ class Solution:
         def check():
             if len(st) == (2*n):
                 if valid(st):
-                    print(st)
                     ret.add("".join(st))
                 return
                   
