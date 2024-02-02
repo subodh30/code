@@ -1,17 +1,19 @@
 class Solution:
     def characterReplacement(self, s: str, k: int) -> int:
-        def isGood(c, k):
-            return sum(c) - max(c) <= k
-        
-        c=[0]*26
-        l,r = 0, 0
-        ans = k
-        while r < len(s):
-            c[ord(s[r])-65] = c[ord(s[r])-65] + 1
-            while not isGood(c, k):
-                c[ord(s[l]) - 65] = c[ord(s[l]) - 65] - 1
-                l = l +1
-            ans = max(ans, r-l+1)
-            r = r + 1
+        d = {}
+        for x in set(s):
+            d[x]=0
+        l=0
+        ans=0
+        for r in range(len(s)):
+            d[s[r]]+=1
+            sl = r-l+1
+            if sl - max(d.values()) <= k:
+                ans = max(ans, sl)
+            else:
+                while sl-max(d.values()) > k:
+                    d[s[l]] -= 1
+                    l+=1
+                    sl = r - l + 1
         return ans
         
