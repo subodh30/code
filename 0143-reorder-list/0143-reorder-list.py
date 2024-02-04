@@ -8,36 +8,24 @@ class Solution:
         """
         Do not return anything, modify head in-place instead.
         """
-        if head.next == None:
-            return
-        slow = fast = head
-        prev=None
-        while slow and fast and fast.next:
-            prev = slow
-            slow, fast = slow.next, fast.next.next
-            
-        prev.next=None
-        def reverse(prev, cur):
-            if cur == None:
-                return prev
-            head = reverse(cur, cur.next)
-            cur.next = prev
-            return head
-        
-        rev = reverse(None, slow)
-        
-        h1, h2 = head, rev
-        while h2:
-            nxt = h1.next
-            h1.next = h2
-            h1 = h2
-            h2 = nxt
-            
-            
-            
-            
-            
-        
-            
-        
-        
+        slow, fast = head, head.next
+        while fast and fast.next:
+            slow = slow.next
+            fast = fast.next.next
+
+        # reverse second half
+        second = slow.next
+        prev = slow.next = None
+        while second:
+            tmp = second.next
+            second.next = prev
+            prev = second
+            second = tmp
+
+        # merge two halfs
+        first, second = head, prev
+        while second:
+            tmp1, tmp2 = first.next, second.next
+            first.next = second
+            second.next = tmp1
+            first, second = tmp1, tmp2
