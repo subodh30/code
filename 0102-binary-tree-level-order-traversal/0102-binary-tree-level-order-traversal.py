@@ -7,21 +7,14 @@
 class Solution:
     def levelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
         ans = []
-        if root==None:
-            return ans
-        
-        def trav(root, idx):
+        def travel(i, node):
             nonlocal ans
-            if root==None:
+            if node == None:
                 return
-            
-            if len(ans) <= idx:
+            if i >= len(ans):
                 ans.append([])
-            
-            ans[idx].append(root.val)
-            trav(root.left, idx+1)
-            trav(root.right, idx+1)
-        
-        trav(root, 0)
+            ans[i].append(node.val)
+            travel(i+1, node.left)
+            travel(i+1, node.right)
+        travel(0, root)
         return ans
-        
