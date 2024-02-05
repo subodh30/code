@@ -6,16 +6,15 @@
 #         self.right = right
 class Solution:
     def goodNodes(self, root: TreeNode) -> int:
-        cnt=0
-        def findG(root, mxx):
-            nonlocal cnt
-            if root==None:
-                return 
-            if root.val >= mxx:
-                cnt+=1
-                mxx = root.val
-            findG(root.left, mxx)
-            findG(root.right, mxx)
-
-        findG(root, root.val)
-        return cnt
+        ans = 0
+        def travel(mx, node):
+            nonlocal ans
+            if node == None:
+                return
+            if node.val >= mx:
+                ans+=1
+            travel(max(mx,node.val), node.left)
+            travel(max(mx,node.val), node.right)
+            
+        travel(float("-inf"), root)
+        return ans
