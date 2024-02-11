@@ -1,18 +1,11 @@
 class Solution:
     def subsets(self, nums: List[int]) -> List[List[int]]:
-        def rec(prev, idx):
-            if idx >= len(nums):
-                return prev
-            
-            ans = []
-            for arr in prev:
-                ans.append(arr.copy())
-                arr.append(nums[idx])
-                ans.append(arr)
-            return rec(ans, idx+1)
-        
-        return rec([[]], 0)
-                
-            
-            
-        
+        ans = [[]]
+        for x in nums:
+            tmp = []
+            for ar in ans:
+                tmp.append(ar.copy())
+                ar.append(x)
+                tmp.append(ar.copy())
+            ans = tmp.copy()
+        return ans
