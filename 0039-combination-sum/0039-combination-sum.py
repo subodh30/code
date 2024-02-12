@@ -1,21 +1,18 @@
 class Solution:
-    def combinationSum(self, nums: List[int], target: int) -> List[List[int]]:
-        def rec(nums, ans, arr, ss):
-            nonlocal target
+    def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
+        ans = set()
+        def test(cur, temp):
+            if temp == target:
+                t = cur.copy()
+                ans.add(tuple(sorted(t)))
+                return
+            if temp > target:
+                return 
             
-            for n in nums:
-                if ss+n == target:
-                    arr.append(n)
-                    ans.add(tuple(sorted(arr.copy())))
-                    arr.pop()
-                if ss+n < target:
-                    arr.append(n)
-                    rec(nums, ans, arr, ss+n)
-                    arr.pop()
-        ans=set()
-        arr=[]
-        ss=0
-        nums.sort()
-        rec(nums, ans, arr, ss)
-        return ans
-        
+            for x in candidates:
+                cur.append(x)
+                test(cur, temp+x)
+                cur.pop()
+            return
+        test([], 0)
+        return list(ans)
