@@ -1,16 +1,30 @@
 class Solution:
     def leastInterval(self, tasks: List[str], n: int) -> int:
         d={}
-        if n==0:
-            return len(tasks)
-        for t in tasks:
-            d[t] = d.get(t, 0) + 1
-        
-        mv = max(d.values())
-        cnt=0
-        for k, v in d.items():
-            if v == mv:
-                cnt+=1
-        ans = (mv-1)*(n+1) + cnt
-        return ans if ans > len(tasks)  else len(tasks)
-        
+        for x in tasks:
+            if x not in d:
+                d[x]=0
+            d[x]+=1
+            
+        h = []
+        for k,v in d.items():
+            heapq.heappush(h, -v)
+        q = []
+        time = 0
+        while h or q:
+            time+=1
+            # print(h)
+            # print(q)
+            # print(time)
+            if h:
+                val = heapq.heappop(h)
+                val += 1
+                if val < 0:
+                    q.append((time+n, val))
+            while q and q[0][0] <= time:
+                _, vx = q.pop(0)
+                heapq.heappush(h, vx)
+            
+        return time
+                
+            
