@@ -1,25 +1,20 @@
 class Solution:
-    def combinationSum2(self, nums: List[int], target: int) -> List[List[int]]:
-        nums.sort()
-        def rec(cds, arr, ss):
-            nonlocal ans
-            if ss == target:
-                ans.add(tuple(arr.copy()))
+    def combinationSum2(self, c: List[int], target: int) -> List[List[int]]:
+        ans = set()
+        c.sort()
+        def test(i, temp):
+            if sum(temp) == target:
+                ans.add(tuple(sorted(temp.copy())))
                 return
-            if ss+sum(cds) < target:
+            if i >= len(c) or sum(temp) > target:
                 return
-            i=0
-            while i < len(cds):
-                if i > 0 and cds[i-1] == cds[i]:
-                    i+=1
+            
+            for xi in range(i, len(c)):
+                if xi > i and c[xi-1] == c[xi]:
                     continue
-                if ss + cds[i] > target:
-                    break
-                arr.append(cds[i])
-                rec(cds[i+1:], arr, ss+cds[i])
-                arr.pop()
-                i+=1
-        ans=set()
-        rec(nums, [], 0)
-        
-        return ans
+                temp.append(c[xi])
+                test(xi+1, temp)
+                temp.pop()
+                            
+        test(0, [])
+        return list(ans)
