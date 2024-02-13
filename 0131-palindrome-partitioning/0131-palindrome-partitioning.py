@@ -1,29 +1,23 @@
 class Solution:
     def partition(self, s: str) -> List[List[str]]:
-        def isPal(st):
-            i,j = 0, len(st)-1
-            while i<j:
-                if st[i]==st[j]:
-                    i+=1
-                    j-=1
-                else:
-                    return False
-            return True
+        ans = []
+        def isPal(ss):
+            half=len(ss)//2
+            fir = ss[:half]
+            sec = ss[half if len(ss)%2==0 else half+1:]
+            sr = sec[::-1]
+            return fir == sr
         
-        ans=[]
-        
-        def rec(idx, arr):
-            nonlocal ans
-            if idx==len(s):
-                ans.append(arr.copy())
+        def test(i, temp):
+            if i >= len(s):
+                ans.append(temp.copy())
                 return
-            i=idx+1
-            while i <= len(s):
-                if isPal(s[idx:i]):
-                    arr.append(s[idx:i])
-                    rec(i, arr)
-                    arr.pop()
-                i+=1
-        rec(0, [])
+            # print(i)
+            for xi in range(i, len(s)+1):
+                # print(s[i:xi])
+                if s[i:xi] != "" and isPal(s[i:xi]):
+                    temp.append(s[i:xi])
+                    test(xi, temp)
+                    temp.pop()
+        test(0, [])
         return ans
-        
