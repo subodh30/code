@@ -1,32 +1,23 @@
 class Solution:
     def numIslands(self, grid: List[List[str]]) -> int:
-        m,n = len(grid), len(grid[0])
-        cnt=0
-        def rec(i, j):
-            nonlocal m,n
-            q=[]
-            q.append((i, j))
-            grid[i][j]=0
+        vis = set()
+        m,n = len(grid)-1, len(grid[0])-1
+        ans = 0
+        def iterate(i,j):
+            q = [[i,j]]
+            d = [[1,0], [-1,0], [0,1], [0,-1]]
+
             while q:
-                ii, jj = q.pop(0)
-                if ii+1<m and grid[ii+1][jj]=="1":
-                    grid[ii+1][jj]=0
-                    q.append((ii+1, jj))
-                if jj+1<n and grid[ii][jj+1]=="1":
-                    grid[ii][jj+1]=0
-                    q.append((ii, jj+1))
-                if ii-1>=0 and grid[ii-1][jj]=="1":
-                    grid[ii-1][jj]=0
-                    q.append((ii-1, jj))
-                if jj-1 >=0  and grid[ii][jj-1]=="1":
-                    grid[ii][jj-1]=0
-                    q.append((ii, jj-1))
-            
-            
-        for i in range(m):
-            for j in range(n):
-                if grid[i][j]=="1":
-                    cnt+=1
-                    rec(i, j)
-        
-        return cnt
+                i,j = q.pop(0)
+                for x,y in d:
+                    xi, yj = i+x, j+y
+                    if not (xi < 0 or xi > m or yj < 0 or yj > n):
+                        if grid[xi][yj] == "1":
+                            q.append([xi,yj])
+                            grid[xi][yj] = "-"
+        for i in range(m+1):
+            for j in range(n+1):
+                if grid[i][j] == "1":
+                    ans+=1
+                    iterate(i,j)
+        return ans
