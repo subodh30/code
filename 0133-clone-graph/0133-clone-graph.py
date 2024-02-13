@@ -6,25 +6,25 @@ class Node:
         self.neighbors = neighbors if neighbors is not None else []
 """
 
+from typing import Optional
 class Solution:
-    def cloneGraph(self, node: 'Node') -> 'Node':
-        if node == None:
-            return None
+    def cloneGraph(self, node: Optional['Node']) -> Optional['Node']:
         d={}
-        def bfs(node):
-            nonlocal d
-            q=[]
-            q.append(node)
+        def dsf(node):
+            if node == None:
+                return
+            
+            clone = None
             if node not in d:
-                d[node] = Node(node.val)
-            while q:
-                tnode = q.pop(0)
-                for child in tnode.neighbors:
-                    if child not in d:
-                        d[child] = Node(child.val)
-                        q.append(child)
-        bfs(node)       
-        for k, v in d.items():
-            for child in k.neighbors:
-                v.neighbors.append(d[child])
-        return None if d.get(node, None) == None else d[node]
+                clone = Node(node.val)
+                d[node] = clone
+            clone = d[node]
+            for child in node.neighbors:
+                if child in d:
+                    clone.neighbors.append(d[child])
+                else:
+                    dsf(child)
+                    clone.neighbors.append(d[child])
+            return clone
+        
+        return dsf(node)
