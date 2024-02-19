@@ -1,44 +1,33 @@
 class Solution:
-    def solve(self, b: List[List[str]]) -> None:
+    def solve(self, board: List[List[str]]) -> None:
         """
         Do not return anything, modify board in-place instead.
         """
-        m, n = len(b), len(b[0])
-        vis = [[False for _ in range(n)] for _ in range(m)]
-        def rec(i, j):
-            q=[]
-            nonlocal vis, m , n
-            q.append((i,j))
-            temp = set()
-            temp.add((i,j))
-            mark = True
+        vis = set()
+        m,n = len(board), len(board[0])
+        def bfs(i,j):
+            q=[[i,j]]
+            d = [[-1,0], [0, -1], [0,1], [1,0]]
+            sur, area = True, set()
             while q:
-                ii, jj = q.pop(0)
-                if ii+1 ==m or jj+1==n or ii-1==-1 or jj-1 == -1:
-                    mark=False
-                if ii+1 < m and not vis[ii+1][jj] and b[ii+1][jj]=="O":
-                    vis[ii+1][jj]=True
-                    temp.add((ii+1, jj))
-                    q.append((ii+1, jj))
-                if ii-1 >= 0 and not vis[ii-1][jj] and b[ii-1][jj]=="O":
-                    vis[ii-1][jj]=True
-                    temp.add((ii-1, jj))
-                    q.append((ii-1, jj))
-                if jj+1 < n and not vis[ii][jj+1] and b[ii][jj+1]=="O":
-                    vis[ii][jj+1]=True
-                    temp.add((ii, jj+1))
-                    q.append((ii, jj+1))
-                if jj-1 >= 0 and not vis[ii][jj-1] and b[ii][jj-1]=="O":
-                    vis[ii][jj-1]=True
-                    temp.add((ii, jj-1))
-                    q.append((ii, jj-1))
-            if mark:
-                for x,y in temp:
-                    b[x][y]="X"
-        
+                x,y = q.pop(0)
+                if (x,y) in vis:
+                    continue
+                vis.add((x,y))
+                area.add((x,y))
+                for a,b in d:
+                    xx, yy = x+a, y+b
+                    if xx < 0 or xx == m or yy < 0 or yy == n:
+                        sur = False
+                        continue
+                    if board[xx][yy] == "O":
+                        q.append([xx, yy])
+            if sur:
+                for r,s in area:
+                    board[r][s] = "X"
+
         for i in range(m):
             for j in range(n):
-                if not vis[i][j] and b[i][j]=="O":
-                    rec(i, j)
-                    
-            
+                # print(vis)
+                if (i,j) not in vis and board[i][j] == "O":
+                    bfs(i,j)
