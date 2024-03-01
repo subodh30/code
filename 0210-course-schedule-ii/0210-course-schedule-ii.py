@@ -1,31 +1,29 @@
 class Solution:
-    def findOrder(self, n: int, p: List[List[int]]) -> List[int]:
-        vis=[]
-        ans=[]
-        d={}
-        for i in range(n):
-            d[i]=[]
-        
-        for x,y in p:
-            d[x].append(y)
+    def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
+        g = {}
+        for i in range(numCourses):
+            g[i] = []
             
-        def isCycle(i, recSt):
-            nonlocal vis, ans
-            if i not in vis:
-                vis.append(i)
-                recSt.append(i)
-                for child in d[i]:
-                    if child not in vis and isCycle(child, recSt):
-                        return True
-                    elif child in recSt:
-                        return True
-                ans.append(recSt.pop())
+        for s, d in prerequisites:
+            g[s].append(d)
+        ans = []
+        vis=set()
+        def isCycle(v, st):
+            nonlocal vis
+            if v in st:
+                return True
+            if v in vis:
                 return False
-        
-        for i in range(n):
-            if i not in vis:
-                if isCycle(i, []):
-                    return []
-        
+            vis.add(v)
+            st.append(v)
+            for c in g[v]:
+                if isCycle(c, st):
+                    return True
+            st.pop()
+            ans.append(v)
+            return False
+            
+        for i in range(numCourses):
+            if i not in vis and isCycle(i, []):
+                return []
         return ans
-        
