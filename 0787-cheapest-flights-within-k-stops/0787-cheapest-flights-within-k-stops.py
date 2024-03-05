@@ -1,36 +1,33 @@
 class Solution:
     def findCheapestPrice(self, n: int, flights: List[List[int]], src: int, dst: int, k: int) -> int:
-        d={}
-        n+=1
-        dist = [float("inf") for _ in range(n)]
+        d = [float("inf") for _ in range(n)]
+        g = {}
         for i in range(n):
-            d[i]=[]
-        #h=[]
-        q=[]
+            g[i] = []
         for u, v, w in flights:
-            d[u].append((v, w))
-            if u == src:
-                #heapq.heappush(h, (w, v, 0))
-                q.append((w, v, 0))
-                dist[v]=w
+            g[u].append((v, w))
             
-        dist[src]=0
-        
-        while q:
-            # print(q)
-            # w, u, hops = heapq.heappop(h)
-            w, u, hops = q.pop(0)
-            hops+=1
-            if hops > k:
-                continue
-            for v, wi in d[u]:
-                if hops<=k and wi+w < dist[v]:
-                    dist[v] = wi+w
-                    # heapq.heappush(h, (wi+w, v, hops))
-                    q.append((wi+w, v, hops))
-        
-        ans = dist[dst]
+        d[src]=0
+        # print(g)
+        def bfs(sv):
+            q=[]
+            for v,w in g[sv]:
+                d[v] = w
+                q.append((w, v, 0))
+                
+            while q:
+                # print(d)
+                # print(q)
+                wi, u, i = q.pop(0)
+                
+                if d[u] >= wi:
+                    d[u] = wi
+                    for v, w in g[u]:
+                        if i == k:
+                            continue
+                        q.append((d[u]+w, v, i+1))
+        bfs(src)
+        ans = d[dst]
         if ans == float("inf"):
             return -1
         return ans
-            
