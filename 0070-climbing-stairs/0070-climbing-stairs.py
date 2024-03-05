@@ -1,12 +1,8 @@
 class Solution:
     def climbStairs(self, n: int) -> int:
-        arr=[0]*(n+1)
-        if n < 3:
-            return n
-        arr[1]=1
-        arr[2]=2
-        for i in range(3, n+1):
-            arr[i]=arr[i-1] + arr[i-2]
-        
-        return arr[n]
-        
+        n1, n2 = 1, 2
+        for i in range(2, n+1):
+            x = n1+n2
+            n1, n2 = n2, x
+            
+        return n1
