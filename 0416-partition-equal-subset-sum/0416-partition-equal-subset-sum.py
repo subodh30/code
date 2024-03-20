@@ -1,19 +1,18 @@
 class Solution:
     def canPartition(self, nums: List[int]) -> bool:
-        if len(nums) == 1:
+        target = sum(nums)
+        if target % 2 == 1:
             return False
-        tot = sum(nums)
-        if tot % 2:
-            return False
-        midSum = tot // 2
-        v=set()
-        v.add(0)
+        
+        target = target // 2
+        ans = set()
+        ans.add(0)
         for n in nums:
-            nv = set()
-            for t in v:
-                if t+n==midSum:
+            temp = set()
+            for s in ans:
+                if s+n == target:
                     return True
-                nv.add(t+n)
-                nv.add(t)
-            v = nv
+                if s+n < target:
+                    temp.add(s+n)
+            ans.update(temp)
         return False
