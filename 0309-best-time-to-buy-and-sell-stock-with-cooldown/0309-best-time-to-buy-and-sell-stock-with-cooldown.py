@@ -1,18 +1,23 @@
 class Solution:
     def maxProfit(self, prices: List[int]) -> int:
-        memo={}
-        def rec(i, buy):            
+        dp = {}
+        def getProfit(i, isBuy):
+            nonlocal dp
+            # print(str(i) + " " + str(isBuy))
             if i >= len(prices):
                 return 0
-            if (i, buy) in memo:
-                return memo[(i, buy)]
-            if buy:
-                mx1 = rec(i+1, False) - prices[i]
-                mx2 = rec(i+1, True)
+            key = (i, isBuy)
+            if key in dp:
+                return dp[key]
+            
+            if isBuy:
+                mx1 = getProfit(i+1, False) - prices[i]
+                mx2 = getProfit(i+1, True)
             else:
-                mx1 = rec(i+2, True) + prices[i]
-                mx2 = rec(i+1, False)
-            memo[(i, buy)] = max(mx1, mx2)
-            return max(mx1, mx2)
-        
-        return rec(0, True)
+                mx1 = prices[i] + getProfit(i+2, True)
+                mx2 = getProfit(i+1, False)
+            dp[key] = max(mx1, mx2)
+            return dp[key]
+        ans = getProfit(0,True)
+        # print(dp)
+        return ans
