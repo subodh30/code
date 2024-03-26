@@ -1,17 +1,20 @@
 class Solution:
     def change(self, amount: int, coins: List[int]) -> int:
-        dp = [[0 for _ in range(amount+1)] for _ in range(len(coins))]
-        for i in range(len(coins)):
-            dp[i][0] = 1
+        memo = {}
+        def getComb(i, amt):
+            if amt > amount or i >= len(coins):
+                return 0
+            if amt == amount:
+                return 1
+            if (i, amt) in memo:
+                return memo[(i, amt)]
+            tot = 0
+            for j in range(i, len(coins)):
+                tot += getComb(j, amt + coins[j])
+                
+            memo[(i, amt)] = tot
+            return tot
         
-        for j in range(amount+1):
-            if j - coins[0] >=0:
-                dp[0][j] = dp[0][j - coins[0]]
-                    
-        for i in range(1, len(coins)):
-            for j in range(1, amount+1):
-                if j - coins[i] >=0:
-                    dp[i][j] = dp[i][j - coins[i]]
-                dp[i][j]+= dp[i-1][j]
-        # print(dp)
-        return dp[-1][-1]
+        ans = getComb(0, 0)
+        # print(memo)
+        return ans
