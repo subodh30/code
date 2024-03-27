@@ -1,26 +1,20 @@
 class Solution:
     def partitionLabels(self, s: str) -> List[int]:
-        d = {}
-        for c in s:
-            if d.get(c, None) == None:
-                d[c] = 0
-            d[c]+=1
-            
-        curCnt=0
-        curChar=set()
+        #ord 97-a 65-A 48-1
+        cnt = [0 for _ in range(26)]
+        for i in s:
+            cnt[ord(i)-97] += 1
+        
+        chrset = set()
         ans = []
-        for c in s:
-            curCnt += 1
-            curChar.add(c)
-            d[c]-=1
-            part = True
-            for x in curChar:
-                if d[x] != 0:
-                    part=False
-                    break
-            if part:
-                ans.append(curCnt)
-                curCnt = 0
-                curChar = set()
+        start = 0
+        for i, v in enumerate(s):
+            chrset.add(v)
+            cnt[ord(v)-97] -= 1
+            if cnt[ord(v)-97] == 0:
+                chrset.remove(v)
                 
+            if len(chrset) == 0:
+                ans.append(i+1 - start)
+                start = i + 1
         return ans
