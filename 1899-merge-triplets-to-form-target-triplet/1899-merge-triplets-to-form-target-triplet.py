@@ -1,19 +1,13 @@
 class Solution:
     def mergeTriplets(self, triplets: List[List[int]], target: List[int]) -> bool:
-#         if target in triplets:
-#             return True
-        
-        
-        temp = []
-        for x in triplets: 
-            if x[0] <= target[0] and x[1] <= target[1] and x[2] <= target[2]:
-                temp.append(x)
-        # print(temp)
-        fi = set([x[0] for x in temp])
-        se = set([x[1] for x in temp])
-        th = set([x[2] for x in temp])
-
-        if target[0] not in fi or target[1] not in se or target[2] not in th:
-            return False
-        
-        return len(temp) > 0
+        values = [[], [], []]
+        for tri in triplets:
+            if tri[0] <= target[0] and tri[1] <= target[1] and tri[2] <= target[2]:
+                values[0].append(tri[0])
+                values[1].append(tri[1])
+                values[2].append(tri[2])
+                
+        print(values)
+        if target[0] in values[0] and target[1] in values[1] and target[2] in values[2]:
+            return True
+        return False
