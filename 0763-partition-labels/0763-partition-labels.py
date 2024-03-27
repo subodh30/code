@@ -1,20 +1,14 @@
 class Solution:
     def partitionLabels(self, s: str) -> List[int]:
-        #ord 97-a 65-A 48-1
-        cnt = [0 for _ in range(26)]
-        for i in s:
-            cnt[ord(i)-97] += 1
-        
-        chrset = set()
+        last = {}
+        for i,v in enumerate(s):
+            last[v] = i
+        size = end = 0
         ans = []
-        start = 0
         for i, v in enumerate(s):
-            chrset.add(v)
-            cnt[ord(v)-97] -= 1
-            if cnt[ord(v)-97] == 0:
-                chrset.remove(v)
-                
-            if len(chrset) == 0:
-                ans.append(i+1 - start)
-                start = i + 1
+            size+=1
+            end = max(end, last[v])
+            if i == end:
+                ans.append(size)
+                size = 0
         return ans
