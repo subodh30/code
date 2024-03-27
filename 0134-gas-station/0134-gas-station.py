@@ -3,12 +3,11 @@ class Solution:
         if sum(gas) < sum(cost):
             return -1
         
-        tot=0
-        i=0
-        for ii in range(len(gas)):
-            tot+=(gas[ii] - cost[ii])
-            if tot<0:
-                tot=0
-                i=ii+1
-                
-        return i
+        ri = 0
+        totalGas = 0
+        for i, g in enumerate(gas):
+            totalGas += (g - cost[i])
+            if totalGas < 0:
+                totalGas = 0
+                ri = i+1
+        return ri
