@@ -1,21 +1,14 @@
 class Solution:
-    def eraseOverlapIntervals(self, itv: List[List[int]]) -> int:
-        itv = sorted(itv)
-        cnt = 0
-        t = [float("-inf"), float("-inf")]
-        # print(itv)
-        for i in range(len(itv)):
-            if t[1] <= itv[i][0]:
-                t = itv[i]
-                continue
-            elif t[0] >= itv[i][1]:
+    def eraseOverlapIntervals(self, intervals: List[List[int]]) -> int:
+        intervals = sorted(intervals)
+        cur = [intervals[0][0], intervals[0][1]]
+        ans = 0
+        # print(intervals)
+        for s,e in intervals[1:]:
+            if cur[1] <= s:
+                cur = [s,e]
                 continue
             else:
-                cnt+=1
-                # print(t)
-                # print(itv[i])
-                # print()
-                if t[1] > itv[i][1] :
-                    t = itv[i]
-                    
-        return cnt
+                ans += 1
+                cur = [s,min(e, cur[1])]
+        return ans
