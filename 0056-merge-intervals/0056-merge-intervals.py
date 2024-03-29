@@ -1,17 +1,13 @@
 class Solution:
-    def merge(self, itv: List[List[int]]) -> List[List[int]]:
-        ret = []
-        itv = sorted(itv)
-        t = itv[0]
-        for i in range(len(itv)):
-            if t[1] < itv[i][0]:
-                ret.append(t)
-                t = itv[i]
-            elif t[0] > itv[i][1]:
-                ret.append(itv[i])
+    def merge(self, intervals: List[List[int]]) -> List[List[int]]:
+        ans = []
+        intervals = sorted(intervals)
+        cur = [intervals[0][0], intervals[0][1]]
+        for s,e in intervals[1:]:
+            if cur[1] < s:
+                ans.append(cur)
+                cur = [s,e]
             else:
-                t = [min(t[0], itv[i][0]), max(t[1], itv[i][1])]
-        
-        ret.append(t)
-        return ret
-            
+                cur = [min(s, cur[0]), max(e, cur[1])]
+        ans.append(cur)
+        return ans
