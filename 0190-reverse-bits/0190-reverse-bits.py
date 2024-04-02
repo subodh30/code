@@ -1,19 +1,16 @@
 class Solution:
     def reverseBits(self, n: int) -> int:
-        ans = [0 for _ in range(32)]
-        i = 0
-        while n > 1:
-            ans[i] = n%2
-            n=n//2
-            i+=1
-        if n:
-            ans[i] = 1
+        t = []
+        while n > 0:
+            t.append(n%2)
+            n = n // 2
+        while len(t) < 32:
+            t.append(0)
+        ans = 0
+        p = 0
+        for x in t[::-1]:
+            ans += (x * 2**p)
+            p+=1
+        return ans
+            
         
-        # print(ans)
-        i = 1
-        ret = 0
-        for bit in ans[::-1]:
-            ret += bit * i
-            i *= 2
-        
-        return ret
