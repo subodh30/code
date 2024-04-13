@@ -6,20 +6,17 @@
 #         self.right = right
 class Solution:
     def sumNumbers(self, root: Optional[TreeNode]) -> int:
-        nums = []
-        def func(root, ans):
-            nonlocal nums
-            if root == None:
-                return 
-            
-            ans = ans*10 + root.val
-            if root.left == None and root.right == None:
-                nums.append(ans)
+        ans = 0
+        def cursum(node, val):
+            nonlocal ans
+            if node == None:
                 return
+            if not node.left and not node.right:
+                ans+= (10*val + node.val)
+            cursum(node.left, 10*val + node.val)
+            cursum(node.right, 10*val + node.val)
+            return
+        cursum(root, 0)
+        return ans 
             
-            func(root.left, ans)
-            func(root.right, ans)
-           
-        func(root, 0)
-        # print(nums)
-        return sum(nums)
+            
